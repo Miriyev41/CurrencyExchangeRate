@@ -7,22 +7,30 @@ namespace ExchangeOffice.Client
         static void Main(string[] args)
         {
             Console.WriteLine("Starting the Exchange Office Client...");
-
-            // 1. Create the client object using the reference Visual Studio just generated
             var client = new ExchangeServiceReference.Service1Client();
 
             try
             {
-                // 2. Get user input
+                // Let's keep the Lab 1 test just to make sure the server is awake
                 Console.Write("Enter your name: ");
                 string userName = Console.ReadLine();
+                Console.WriteLine(client.TestConnection(userName));
+                Console.WriteLine("--------------------------------------------------");
 
-                // 3. Call the method over the local network!
-                string response = client.TestConnection(userName);
+                // --- NEW LAB 2 TEST ---
+                Console.Write("\nEnter a currency code to check the live rate (e.g., USD, EUR, GBP): ");
+                string currencyCode = Console.ReadLine().ToUpper(); // The NBP API requires uppercase!
 
-                // 4. Print the response from the server
-                Console.WriteLine("\nResponse from WCF Server:");
-                Console.WriteLine(response);
+                decimal liveRate = client.GetExchangeRate(currencyCode);
+
+                if (liveRate == 0)
+                {
+                    Console.WriteLine($"\nError: Could not find rate for {currencyCode}. Make sure it is a valid 3-letter code.");
+                }
+                else
+                {
+                    Console.WriteLine($"\nSUCCESS: The current rate for {currencyCode} is {liveRate} PLN.");
+                }
             }
             catch (Exception ex)
             {
@@ -30,7 +38,6 @@ namespace ExchangeOffice.Client
             }
             finally
             {
-                // 5. Always securely close the client when done
                 client.Close();
             }
 

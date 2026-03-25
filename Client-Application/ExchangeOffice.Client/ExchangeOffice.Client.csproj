@@ -56,12 +56,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="Connected Services\ExchangeServiceReference\Service1.wsdl" />
-    <None Include="Connected Services\ExchangeServiceReference\Service1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\ExchangeServiceReference\Service11.xsd">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

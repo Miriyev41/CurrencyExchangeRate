@@ -20,6 +20,12 @@ namespace ExchangeOffice.Client.ExchangeServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/TestConnection", ReplyAction="http://tempuri.org/IService1/TestConnectionResponse")]
         System.Threading.Tasks.Task<string> TestConnectionAsync(string userName);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetExchangeRate", ReplyAction="http://tempuri.org/IService1/GetExchangeRateResponse")]
+        decimal GetExchangeRate(string currencyCode);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetExchangeRate", ReplyAction="http://tempuri.org/IService1/GetExchangeRateResponse")]
+        System.Threading.Tasks.Task<decimal> GetExchangeRateAsync(string currencyCode);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -55,6 +61,14 @@ namespace ExchangeOffice.Client.ExchangeServiceReference {
         
         public System.Threading.Tasks.Task<string> TestConnectionAsync(string userName) {
             return base.Channel.TestConnectionAsync(userName);
+        }
+        
+        public decimal GetExchangeRate(string currencyCode) {
+            return base.Channel.GetExchangeRate(currencyCode);
+        }
+        
+        public System.Threading.Tasks.Task<decimal> GetExchangeRateAsync(string currencyCode) {
+            return base.Channel.GetExchangeRateAsync(currencyCode);
         }
     }
 }
