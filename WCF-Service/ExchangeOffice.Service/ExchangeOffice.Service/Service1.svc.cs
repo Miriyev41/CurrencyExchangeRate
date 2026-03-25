@@ -12,7 +12,6 @@ namespace ExchangeOffice.Service
             return $"Hello {userName}, the WCF Service is running successfully! Time: {DateTime.Now}";
         }
 
-        // --- NEW LAB 2 METHOD ---
         public decimal GetExchangeRate(string currencyCode)
         {
             using (HttpClient client = new HttpClient())

@@ -11,13 +11,11 @@ namespace ExchangeOffice.Client
 
             try
             {
-                // Let's keep the Lab 1 test just to make sure the server is awake
                 Console.Write("Enter your name: ");
                 string userName = Console.ReadLine();
                 Console.WriteLine(client.TestConnection(userName));
                 Console.WriteLine("--------------------------------------------------");
 
-                // --- NEW LAB 2 TEST ---
                 Console.Write("\nEnter a currency code to check the live rate (e.g., USD, EUR, GBP): ");
                 string currencyCode = Console.ReadLine().ToUpper(); // The NBP API requires uppercase!
 
@@ -36,7 +34,7 @@ namespace ExchangeOffice.Client
             {
                 Console.WriteLine($"An error occurred: {ex.Message}");
             }
-            finally
+            finally 
             {
                 client.Close();
             }
