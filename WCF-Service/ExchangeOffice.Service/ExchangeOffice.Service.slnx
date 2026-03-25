@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="../../Client-Application/ExchangeOffice.Client/ExchangeOffice.Client.csproj">
+    <BuildDependency Project="ExchangeOffice.Service/ExchangeOffice.Service.csproj" />
+  </Project>
+  <Project Path="ExchangeOffice.Service/ExchangeOffice.Service.csproj" />
+</Solution>
