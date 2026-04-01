@@ -8,11 +8,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ExchangeOffice.Client.ExchangeServiceReference {
+namespace ExchangeOffice.Client.ExchangeService {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ExchangeServiceReference.IService1")]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ExchangeService.IService1")]
     public interface IService1 {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/TestConnection", ReplyAction="http://tempuri.org/IService1/TestConnectionResponse")]
@@ -38,15 +38,21 @@ namespace ExchangeOffice.Client.ExchangeServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/PerformExchange", ReplyAction="http://tempuri.org/IService1/PerformExchangeResponse")]
         System.Threading.Tasks.Task<string> PerformExchangeAsync(int userId, string fromCurrency, string toCurrency, decimal amount);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetTransactionHistory", ReplyAction="http://tempuri.org/IService1/GetTransactionHistoryResponse")]
+        string[] GetTransactionHistory(int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetTransactionHistory", ReplyAction="http://tempuri.org/IService1/GetTransactionHistoryResponse")]
+        System.Threading.Tasks.Task<string[]> GetTransactionHistoryAsync(int userId);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IService1Channel : ExchangeOffice.Client.ExchangeServiceReference.IService1, System.ServiceModel.IClientChannel {
+    public interface IService1Channel : ExchangeOffice.Client.ExchangeService.IService1, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class Service1Client : System.ServiceModel.ClientBase<ExchangeOffice.Client.ExchangeServiceReference.IService1>, ExchangeOffice.Client.ExchangeServiceReference.IService1 {
+    public partial class Service1Client : System.ServiceModel.ClientBase<ExchangeOffice.Client.ExchangeService.IService1>, ExchangeOffice.Client.ExchangeService.IService1 {
         
         public Service1Client() {
         }
@@ -97,6 +103,14 @@ namespace ExchangeOffice.Client.ExchangeServiceReference {
         
         public System.Threading.Tasks.Task<string> PerformExchangeAsync(int userId, string fromCurrency, string toCurrency, decimal amount) {
             return base.Channel.PerformExchangeAsync(userId, fromCurrency, toCurrency, amount);
+        }
+        
+        public string[] GetTransactionHistory(int userId) {
+            return base.Channel.GetTransactionHistory(userId);
+        }
+        
+        public System.Threading.Tasks.Task<string[]> GetTransactionHistoryAsync(int userId) {
+            return base.Channel.GetTransactionHistoryAsync(userId);
         }
     }
 }

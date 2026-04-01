@@ -1,4 +1,5 @@
 ﻿using System;
+using ExchangeOffice.Client.ExchangeService;
 
 namespace ExchangeOffice.Client
 {
@@ -6,37 +7,82 @@ namespace ExchangeOffice.Client
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Starting the Exchange Office Client...");
-            var client = new ExchangeServiceReference.Service1Client();
+            // 1. Initialize the connection to the service
+            Service1Client client = new Service1Client();
 
             try
             {
-                Console.Write("Enter your name: ");
-                string userName = Console.ReadLine();
-                Console.WriteLine(client.TestConnection(userName));
-                Console.WriteLine("--------------------------------------------------");
+                Console.WriteLine("========================================");
+                Console.WriteLine("   UNIVERSITY EXCHANGE OFFICE CLIENT    ");
+                Console.WriteLine("========================================\n");
 
-                Console.Write("\nEnter a currency code to check the live rate (e.g., USD, EUR, GBP): ");
-                string currencyCode = Console.ReadLine().ToUpper(); // The NBP API requires uppercase!
+                // 2. Initial Connection Tests
+                string greeting = client.TestConnection("Student");
+                Console.WriteLine($"[Service Check]: {greeting}");
 
-                decimal liveRate = client.GetExchangeRate(currencyCode);
+                string dbResult = client.TestDatabaseConnection();
+                Console.WriteLine($"[Database Check]: {dbResult}");
 
-                if (liveRate == 0)
+                // 3. INTERACTIVE EXCHANGE MENU
+                Console.WriteLine("\n--- NEW TRANSACTION ---");
+
+                Console.Write("Enter currency to SELL (e.g., EUR): ");
+                string fromCurr = Console.ReadLine().ToUpper().Trim();
+
+                Console.Write("Enter currency to BUY (e.g., PLN): ");
+                string toCurr = Console.ReadLine().ToUpper().Trim();
+
+                Console.Write("Enter amount to exchange: ");
+                string amountInput = Console.ReadLine();
+
+                if (decimal.TryParse(amountInput, out decimal amount))
                 {
-                    Console.WriteLine($"\nError: Could not find rate for {currencyCode}. Make sure it is a valid 3-letter code.");
+                    Console.WriteLine($"\nRequesting exchange of {amount} {fromCurr} for {toCurr}...");
+
+                    // Call the Service (User ID 1 is Mirparvin)
+                    string result = client.PerformExchange(1, fromCurr, toCurr, amount);
+
+                    Console.WriteLine("----------------------------------------");
+                    Console.WriteLine("RESULT: " + result);
+                    Console.WriteLine("----------------------------------------");
                 }
                 else
                 {
-                    Console.WriteLine($"\nSUCCESS: The current rate for {currencyCode} is {liveRate} PLN.");
+                    Console.WriteLine("Invalid amount format.");
                 }
+
+                // 4. SHOW TRANSACTION HISTORY (The "Top Grade" Feature)
+                Console.WriteLine("\n--- RECENT TRANSACTION HISTORY ---");
+                // Note: WCF converts List<string> to an Array string[] for the client
+                string[] history = client.GetTransactionHistory(1);
+
+                if (history != null && history.Length > 0)
+                {
+                    foreach (var record in history)
+                    {
+                        Console.WriteLine(record);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("No history found for this user.");
+                }
+
+                // 5. Final Status Check
+                Console.WriteLine("\n--- FINAL ACCOUNT STATUS ---");
+                string finalStatus = client.TestDatabaseConnection();
+                Console.WriteLine(finalStatus);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred: {ex.Message}");
+                Console.WriteLine($"\n[CRITICAL ERROR]: {ex.Message}");
             }
-            finally 
+            finally
             {
-                client.Close();
+                if (client.State != System.ServiceModel.CommunicationState.Faulted)
+                {
+                    client.Close();
+                }
             }
 
             Console.WriteLine("\nPress any key to exit...");

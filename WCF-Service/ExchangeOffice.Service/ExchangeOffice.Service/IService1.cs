@@ -1,14 +1,22 @@
-﻿using System.ServiceModel;
+﻿using System.Collections.Generic;
+using System.ServiceModel;
 
-namespace ExchangeOffice.Service
+[ServiceContract]
+public interface IService1
 {
-    [ServiceContract]
-    public interface IService1
-    {
-        [OperationContract]
-        string TestConnection(string userName);
+    [OperationContract]
+    string TestConnection(string userName);
 
-        [OperationContract]
-        decimal GetExchangeRate(string currencyCode);
-    }
+    [OperationContract]
+    decimal GetExchangeRate(string currencyCode);
+
+    [OperationContract]
+    string TestDatabaseConnection();
+
+    [OperationContract]
+    string PerformExchange(int userId, string fromCurrency, string toCurrency, decimal amount);
+
+    // MAKE SURE THIS LINE IS HERE:
+    [OperationContract]
+    List<string> GetTransactionHistory(int userId);
 }
