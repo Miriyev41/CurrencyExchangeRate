@@ -1,11 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.4.11626.88 stable
+VisualStudioVersion = 18.4.11626.88
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExchangeOffice.Service", "ExchangeOffice.Service.csproj", "{96F5DF06-0E48-4D1B-9007-404E94EE09AD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExchangeOffice.Client", "..\..\..\Client-Application\ExchangeOffice.Client\ExchangeOffice.Client.csproj", "{C4A2AB46-D519-4C6A-9C2F-28655F3A323E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{96F5DF06-0E48-4D1B-9007-404E94EE09AD} = {96F5DF06-0E48-4D1B-9007-404E94EE09AD}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExchangeOffice.WpfClient", "..\ExchangeOffice.WpfClient\ExchangeOffice.WpfClient.csproj", "{C13D3FBA-53CA-4989-89B5-C7072F7CC2FF}"
 	ProjectSection(ProjectDependencies) = postProject
 		{96F5DF06-0E48-4D1B-9007-404E94EE09AD} = {96F5DF06-0E48-4D1B-9007-404E94EE09AD}
 	EndProjectSection
@@ -24,6 +29,10 @@ Global
 		{C4A2AB46-D519-4C6A-9C2F-28655F3A323E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4A2AB46-D519-4C6A-9C2F-28655F3A323E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4A2AB46-D519-4C6A-9C2F-28655F3A323E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C13D3FBA-53CA-4989-89B5-C7072F7CC2FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C13D3FBA-53CA-4989-89B5-C7072F7CC2FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C13D3FBA-53CA-4989-89B5-C7072F7CC2FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C13D3FBA-53CA-4989-89B5-C7072F7CC2FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

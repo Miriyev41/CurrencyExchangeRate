@@ -101,7 +101,7 @@ namespace ExchangeOffice.Service
             }
         }
 
-        // 5. GET TRANSACTION HISTORY (The "Bonus" Feature)
+        // 5. GET TRANSACTION HISTORY
         public List<string> GetTransactionHistory(int userId)
         {
             using (var db = new ExchangeDbContext())
@@ -125,6 +125,33 @@ namespace ExchangeOffice.Service
                 catch (Exception ex)
                 {
                     return new List<string> { "Could not load history: " + ex.Message };
+                }
+            }
+        }
+
+        // 6. GET USER WALLETS (For the Dashboard)
+        public List<string> GetUserWallets(int userId)
+        {
+            using (var db = new ExchangeDbContext())
+            {
+                try
+                {
+                    // Find all wallets belonging to this user
+                    var wallets = db.Wallets.Where(w => w.UserId == userId).ToList();
+                    List<string> lines = new List<string>();
+
+                    if (wallets.Count == 0) return new List<string> { "No wallets found." };
+
+                    // Format them nicely for the UI
+                    foreach (var w in wallets)
+                    {
+                        lines.Add($"{w.CurrencyCode}: {Math.Round(w.Balance, 2)}");
+                    }
+                    return lines;
+                }
+                catch (Exception ex)
+                {
+                    return new List<string> { "Error loading wallets: " + ex.Message };
                 }
             }
         }

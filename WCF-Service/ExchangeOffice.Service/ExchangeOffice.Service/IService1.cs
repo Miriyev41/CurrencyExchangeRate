@@ -19,4 +19,7 @@ public interface IService1
     // MAKE SURE THIS LINE IS HERE:
     [OperationContract]
     List<string> GetTransactionHistory(int userId);
+
+    [OperationContract]
+    List<string> GetUserWallets(int userId);
 }
