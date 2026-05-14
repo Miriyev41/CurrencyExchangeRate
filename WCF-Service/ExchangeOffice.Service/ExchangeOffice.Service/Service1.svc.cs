@@ -155,6 +155,33 @@ namespace ExchangeOffice.Service
                 }
             }
         }
+
+        // 7. AUTHENTICATION GATEWAY
+        public int AuthenticateUser(string username, string password)
+        {
+            using (var db = new ExchangeDbContext())
+            {
+                try
+                {
+                    // SECURITY NOTE: In a real enterprise system, passwords are NEVER stored as plain text. 
+                    // They are hashed (e.g., using BCrypt or SHA256). 
+                    // For this architecture lab, we are checking the raw string.
+
+                    var user = db.Users.FirstOrDefault(u => u.Username == username && u.Password == password);
+
+                    if (user != null)
+                    {
+                        return user.Id; // Success: Return the real User ID
+                    }
+
+                    return 0; // Failure: Invalid credentials
+                }
+                catch (Exception)
+                {
+                    return -1; // Database crash/error
+                }
+            }
+        }
     }
 
     public class NbpResponse { public List<NbpRate> rates { get; set; } }

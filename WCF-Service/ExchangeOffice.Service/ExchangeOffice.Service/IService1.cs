@@ -22,4 +22,7 @@ public interface IService1
 
     [OperationContract]
     List<string> GetUserWallets(int userId);
+
+    [OperationContract]
+    int AuthenticateUser(string username, string password);
 }
