@@ -85,13 +85,29 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExchangeDbContext.cs" />
+    <Compile Include="Migrations\202604011924014_InitialCreate.cs" />
+    <Compile Include="Migrations\202604011924014_InitialCreate.Designer.cs">
+      <DependentUpon>202604011924014_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202605191345585_AddPassword.cs" />
+    <Compile Include="Migrations\202605191345585_AddPassword.Designer.cs">
+      <DependentUpon>202605191345585_AddPassword.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Service1.svc.cs">
       <DependentUpon>Service1.svc</DependentUpon>
     </Compile>
     <Compile Include="IService1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202604011924014_InitialCreate.resx">
+      <DependentUpon>202604011924014_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202605191345585_AddPassword.resx">
+      <DependentUpon>202605191345585_AddPassword.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="Web.Debug.config">

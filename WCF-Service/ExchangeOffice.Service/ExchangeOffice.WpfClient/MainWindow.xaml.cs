@@ -6,21 +6,22 @@ namespace ExchangeOffice.WpfClient
 {
     public partial class MainWindow : Window
     {
-        // We will hardcode User 1 for now
-        private readonly int currentUserId = 1;
+        // Holds the ID of the currently logged-in user
+        private int currentUserId;
 
-        public MainWindow()
+        public MainWindow(int userId)
         {
             InitializeComponent();
+            currentUserId = userId; // Save the logged-in user's ID
         }
 
-        // 1. This triggers automatically when the window opens
+        // This triggers automatically when the window opens
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             RefreshDashboard();
         }
 
-        // 2. The centralized method to fetch live data from the WCF Service
+        // The centralized method to fetch live data from the WCF Service
         private void RefreshDashboard()
         {
             try
@@ -42,7 +43,47 @@ namespace ExchangeOffice.WpfClient
             }
         }
 
-        // 3. The Exchange Button Logic
+        // NEW: The Top-Up / Deposit Logic
+        private void btnTopUp_Click(object sender, RoutedEventArgs e)
+        {
+            string currency = txtTopUpCurrency.Text.Trim();
+            string amountText = txtTopUpAmount.Text.Trim();
+
+            if (string.IsNullOrEmpty(currency) || !decimal.TryParse(amountText, out decimal amount))
+            {
+                txtResult.Text = "Top-Up Error: Please enter a valid currency code and amount.";
+                return;
+            }
+
+            try
+            {
+                using (Service1Client client = new Service1Client())
+                {
+                    // Call the backend to add the money
+                    string result = client.TopUpWallet(currentUserId, currency, amount);
+
+                    if (result == "Success")
+                    {
+                        txtResult.Text = $"Successfully deposited {amount} {currency.ToUpper()}!";
+                        RefreshDashboard(); // Instantly update the UI balances
+
+                        // Clear the input boxes
+                        txtTopUpCurrency.Text = "";
+                        txtTopUpAmount.Text = "";
+                    }
+                    else
+                    {
+                        txtResult.Text = result;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                txtResult.Text = $"Connection Error: {ex.Message}";
+            }
+        }
+
+        // The Exchange Button Logic
         private void btnExchange_Click(object sender, RoutedEventArgs e)
         {
             string fromCurr = txtFromCurrency.Text.Trim();
@@ -67,7 +108,7 @@ namespace ExchangeOffice.WpfClient
             {
                 using (Service1Client client = new Service1Client())
                 {
-                    // Execute the trade
+                    // Execute the trade using the actual logged-in user's ID
                     string result = client.PerformExchange(currentUserId, fromCurr, toCurr, amount);
                     txtResult.Text = result;
 

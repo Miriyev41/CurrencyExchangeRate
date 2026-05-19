@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ExchangeOffice.WpfClient.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Global Currency Exchange Terminal" Height="500" Width="800" Loaded="Window_Loaded">
+        Title="Global Currency Exchange Terminal" Height="650" Width="800" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
 
     <Grid Margin="20">
         <Grid.ColumnDefinitions>
@@ -10,7 +10,33 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Column="0" Margin="0,0,20,0">
-            <TextBlock Text="EXECUTE TRADE" FontSize="20" FontWeight="Bold" Foreground="#FF0078D7" Margin="0,0,0,20"/>
+
+            <TextBlock Text="FUND ACCOUNT (TOP-UP)" FontSize="18" FontWeight="Bold" Foreground="#FF28A745" Margin="0,0,0,10"/>
+
+            <Grid Margin="0,0,0,25">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,5,10">
+                    <TextBlock Text="Currency (e.g. PLN):" Foreground="Gray" FontWeight="Bold"/>
+                    <TextBox x:Name="txtTopUpCurrency" Height="30" FontSize="16" CharacterCasing="Upper" Padding="2" Margin="0,5,0,0"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="0" Grid.Column="1" Margin="5,0,0,10">
+                    <TextBlock Text="Amount:" Foreground="Gray" FontWeight="Bold"/>
+                    <TextBox x:Name="txtTopUpAmount" Height="30" FontSize="16" Padding="2" Margin="0,5,0,0"/>
+                </StackPanel>
+
+                <Button Grid.Row="1" Grid.ColumnSpan="2" x:Name="btnTopUp" Content="DEPOSIT FUNDS" Height="35" Background="#FF28A745" Foreground="White" FontWeight="Bold" FontSize="14" Click="btnTopUp_Click" Cursor="Hand"/>
+            </Grid>
+
+            <TextBlock Text="EXECUTE TRADE" FontSize="18" FontWeight="Bold" Foreground="#FF0078D7" Margin="0,0,0,10"/>
 
             <TextBlock Text="Currency to SELL (e.g. PLN):" Foreground="Gray" FontWeight="Bold"/>
             <TextBox x:Name="txtFromCurrency" Margin="0,5,0,15" Height="30" FontSize="16" CharacterCasing="Upper" Padding="2"/>
@@ -29,10 +55,10 @@
 
         <StackPanel Grid.Column="1" Margin="20,0,0,0">
             <TextBlock Text="PORTFOLIO BALANCES" FontSize="16" FontWeight="Bold" Foreground="#FF0078D7" Margin="0,0,0,10"/>
-            <ListBox x:Name="lstWallets" Height="120" Margin="0,0,0,20" FontSize="14" Background="#FFF5F5F5" Padding="5"/>
+            <ListBox x:Name="lstWallets" Height="150" Margin="0,0,0,20" FontSize="14" Background="#FFF5F5F5" Padding="5"/>
 
             <TextBlock Text="TRANSACTION LEDGER" FontSize="16" FontWeight="Bold" Foreground="#FF0078D7" Margin="0,0,0,10"/>
-            <ListBox x:Name="lstHistory" Height="200" FontSize="12" FontFamily="Consolas" Background="#FFF5F5F5" Padding="5"/>
+            <ListBox x:Name="lstHistory" Height="250" FontSize="12" FontFamily="Consolas" Background="#FFF5F5F5" Padding="5"/>
         </StackPanel>
     </Grid>
 </Window>

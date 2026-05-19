@@ -50,6 +50,30 @@ namespace ExchangeOffice.WpfClient.ExchangeService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetUserWallets", ReplyAction="http://tempuri.org/IService1/GetUserWalletsResponse")]
         System.Threading.Tasks.Task<string[]> GetUserWalletsAsync(int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/AuthenticateUser", ReplyAction="http://tempuri.org/IService1/AuthenticateUserResponse")]
+        int AuthenticateUser(string username, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/AuthenticateUser", ReplyAction="http://tempuri.org/IService1/AuthenticateUserResponse")]
+        System.Threading.Tasks.Task<int> AuthenticateUserAsync(string username, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/Login", ReplyAction="http://tempuri.org/IService1/LoginResponse")]
+        int Login(string username, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/Login", ReplyAction="http://tempuri.org/IService1/LoginResponse")]
+        System.Threading.Tasks.Task<int> LoginAsync(string username, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/Register", ReplyAction="http://tempuri.org/IService1/RegisterResponse")]
+        int Register(string username, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/Register", ReplyAction="http://tempuri.org/IService1/RegisterResponse")]
+        System.Threading.Tasks.Task<int> RegisterAsync(string username, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/TopUpWallet", ReplyAction="http://tempuri.org/IService1/TopUpWalletResponse")]
+        string TopUpWallet(int userId, string currencyCode, decimal amount);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/TopUpWallet", ReplyAction="http://tempuri.org/IService1/TopUpWalletResponse")]
+        System.Threading.Tasks.Task<string> TopUpWalletAsync(int userId, string currencyCode, decimal amount);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -125,6 +149,38 @@ namespace ExchangeOffice.WpfClient.ExchangeService {
         
         public System.Threading.Tasks.Task<string[]> GetUserWalletsAsync(int userId) {
             return base.Channel.GetUserWalletsAsync(userId);
+        }
+        
+        public int AuthenticateUser(string username, string password) {
+            return base.Channel.AuthenticateUser(username, password);
+        }
+        
+        public System.Threading.Tasks.Task<int> AuthenticateUserAsync(string username, string password) {
+            return base.Channel.AuthenticateUserAsync(username, password);
+        }
+        
+        public int Login(string username, string password) {
+            return base.Channel.Login(username, password);
+        }
+        
+        public System.Threading.Tasks.Task<int> LoginAsync(string username, string password) {
+            return base.Channel.LoginAsync(username, password);
+        }
+        
+        public int Register(string username, string password) {
+            return base.Channel.Register(username, password);
+        }
+        
+        public System.Threading.Tasks.Task<int> RegisterAsync(string username, string password) {
+            return base.Channel.RegisterAsync(username, password);
+        }
+        
+        public string TopUpWallet(int userId, string currencyCode, decimal amount) {
+            return base.Channel.TopUpWallet(userId, currencyCode, amount);
+        }
+        
+        public System.Threading.Tasks.Task<string> TopUpWalletAsync(int userId, string currencyCode, decimal amount) {
+            return base.Channel.TopUpWalletAsync(userId, currencyCode, amount);
         }
     }
 }

@@ -25,4 +25,13 @@ public interface IService1
 
     [OperationContract]
     int AuthenticateUser(string username, string password);
+
+    [OperationContract]
+    int Login(string username, string password);
+
+    [OperationContract]
+    int Register(string username, string password);
+
+    [OperationContract]
+    string TopUpWallet(int userId, string currencyCode, decimal amount);
 }

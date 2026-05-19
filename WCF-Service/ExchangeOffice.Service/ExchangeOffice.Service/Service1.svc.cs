@@ -182,6 +182,67 @@ namespace ExchangeOffice.Service
                 }
             }
         }
+
+        public int Login(string username, string password)
+        {
+            using (var db = new ExchangeDbContext())
+            {
+                // Find a user that matches both username AND password
+                var user = db.Users.FirstOrDefault(u => u.Username == username && u.Password == password);
+
+                if (user != null) return user.Id; // Success! Return their ID
+                return 0; // Failed login
+            }
+        }
+
+        public int Register(string username, string password)
+        {
+            using (var db = new ExchangeDbContext())
+            {
+                // Check if username is taken
+                if (db.Users.Any(u => u.Username == username)) return -1;
+
+                // Create the new user
+                var newUser = new User { Username = username, Password = password };
+                db.Users.Add(newUser);
+                db.SaveChanges(); // Save to get the new ID
+
+                // Bonus: Give them empty wallets to start with so the dashboard doesn't crash!
+                db.Wallets.Add(new Wallet { UserId = newUser.Id, CurrencyCode = "PLN", Balance = 0 });
+                db.Wallets.Add(new Wallet { UserId = newUser.Id, CurrencyCode = "USD", Balance = 0 });
+                db.SaveChanges();
+
+                return newUser.Id;
+            }
+        }
+        public string TopUpWallet(int userId, string currencyCode, decimal amount)
+        {
+            if (amount <= 0) return "Amount must be greater than zero.";
+
+            // Standardize the currency code (e.g., pln -> PLN)
+            currencyCode = currencyCode.ToUpper();
+
+            using (var db = new ExchangeDbContext())
+            {
+                // Find the user's wallet for this specific currency
+                var wallet = db.Wallets.FirstOrDefault(w => w.UserId == userId && w.CurrencyCode == currencyCode);
+
+                if (wallet != null)
+                {
+                    // Add the money to their existing balance
+                    wallet.Balance += amount;
+                }
+                else
+                {
+                    // If they don't have a wallet for this currency yet, make one!
+                    wallet = new Wallet { UserId = userId, CurrencyCode = currencyCode, Balance = amount };
+                    db.Wallets.Add(wallet);
+                }
+
+                db.SaveChanges();
+                return "Success";
+            }
+        }
     }
 
     public class NbpResponse { public List<NbpRate> rates { get; set; } }

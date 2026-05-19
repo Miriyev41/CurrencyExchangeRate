@@ -1,0 +1,19 @@
+﻿<Window x:Class="ExchangeOffice.WpfClient.Login"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Exchange Office - Login" Height="300" Width="400" WindowStartupLocation="CenterScreen">
+    <StackPanel Margin="50">
+        <TextBlock Text="Welcome to Exchange Office" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+
+        <TextBlock Text="Username:"/>
+        <TextBox x:Name="txtUsername" Margin="0,0,0,10"/>
+
+        <TextBlock Text="Password:"/>
+        <PasswordBox x:Name="txtPassword" Margin="0,0,0,20"/>
+
+        <Button Content="Login" x:Name="btnLogin" Click="btnLogin_Click" Padding="5" Margin="0,0,0,10"/>
+        <Button Content="Register New Account" x:Name="btnRegister" Click="btnRegister_Click" Padding="5"/>
+
+        <TextBlock x:Name="txtMessage" Foreground="Red" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+    </StackPanel>
+</Window>
