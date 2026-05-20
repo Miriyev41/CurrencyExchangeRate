@@ -92,7 +92,7 @@ namespace ExchangeOffice.WpfClient
             catch (Exception ex) { txtResult.Text = $"System Error: {ex.Message}"; }
         }
 
-        // --- NEW: Historical Rates Button Logic ---
+        // Historical Rates Button Logic
         private void btnCheckHistory_Click(object sender, RoutedEventArgs e)
         {
             string currency = txtHistoryCurrency.Text.Trim();

@@ -8,7 +8,7 @@ namespace ExchangeOffice.Service
 {
     public class Service1 : IService1
     {
-        // 1. Simple Connection Test
+        // 1.  Connection Test
         public string TestConnection(string userName)
         {
             return $"Hello {userName}, the WCF Service is running successfully! Time: {DateTime.Now}";
@@ -63,7 +63,7 @@ namespace ExchangeOffice.Service
             {
                 try
                 {
-                    // 1. Get the rate for BOTH currencies (If it's PLN, the rate is exactly 1.0)
+                    // 1. Get the rate for BOTH currencies 
                     decimal fromRate = (fromCurrency == "PLN") ? 1.0m : GetExchangeRate(fromCurrency);
                     decimal toRate = (toCurrency == "PLN") ? 1.0m : GetExchangeRate(toCurrency);
 
@@ -83,11 +83,11 @@ namespace ExchangeOffice.Service
                         db.Wallets.Add(targetWallet);
                     }
 
-                    // 2. THE REAL MATH: Convert to PLN first, then divide by the target rate
+                    // 2. Convert to PLN first, then divide by the target rate
                     decimal amountInPLN = amount * fromRate;
                     decimal convertedAmount = amountInPLN / toRate;
 
-                    // Calculate the actual exchange rate used for the ledger
+                    // Calculate the actual exchange rate 
                     decimal finalExchangeRate = fromRate / toRate;
 
                     sourceWallet.Balance -= amount;
@@ -176,9 +176,7 @@ namespace ExchangeOffice.Service
             {
                 try
                 {
-                    // SECURITY NOTE: In a real enterprise system, passwords are NEVER stored as plain text. 
-                    // They are hashed (e.g., using BCrypt or SHA256). 
-                    // For this architecture lab, we are checking the raw string.
+
 
                     var user = db.Users.FirstOrDefault(u => u.Username == username && u.Password == password);
 
@@ -187,11 +185,11 @@ namespace ExchangeOffice.Service
                         return user.Id; // Success: Return the real User ID
                     }
 
-                    return 0; // Failure: Invalid credentials
+                    return 0; // Failure:
                 }
                 catch (Exception)
                 {
-                    return -1; // Database crash/error
+                    return -1; // error during authentication process
                 }
             }
         }
@@ -220,7 +218,6 @@ namespace ExchangeOffice.Service
                 db.Users.Add(newUser);
                 db.SaveChanges(); // Save to get the new ID
 
-                // Bonus: Give them empty wallets to start with so the dashboard doesn't crash!
                 db.Wallets.Add(new Wallet { UserId = newUser.Id, CurrencyCode = "PLN", Balance = 0 });
                 db.Wallets.Add(new Wallet { UserId = newUser.Id, CurrencyCode = "USD", Balance = 0 });
                 db.SaveChanges();
@@ -260,7 +257,6 @@ namespace ExchangeOffice.Service
         {
             if (currencyCode.ToUpper() == "PLN") return "1 PLN is always 1 PLN.";
 
-            // The NBP API requires the date formatted exactly like YYYY-MM-DD
             string dateString = date.ToString("yyyy-MM-dd");
             string url = $"http://api.nbp.pl/api/exchangerates/rates/a/{currencyCode}/{dateString}/?format=json";
 
@@ -276,8 +272,7 @@ namespace ExchangeOffice.Service
             }
             catch
             {
-                // NOTE: The Polish Bank does NOT publish rates on Weekends or Holidays!
-                // If you ask for a Saturday, the API throws an error. We handle that cleanly here.
+
                 return $"No data for {dateString}. (Markets are closed on weekends/holidays).";
             }
         }

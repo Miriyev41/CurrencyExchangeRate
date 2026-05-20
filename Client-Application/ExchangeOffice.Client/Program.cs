@@ -48,9 +48,9 @@ namespace ExchangeOffice.Client
                     Console.WriteLine("Invalid amount format.");
                 }
 
-                // 4. SHOW TRANSACTION HISTORY (The "Top Grade" Feature)
+                // 4. SHOW TRANSACTION HISTORY 
                 Console.WriteLine("\n--- RECENT TRANSACTION HISTORY ---");
-                // Note: WCF converts List<string> to an Array string[] for the client
+                
                 string[] history = client.GetTransactionHistory(1);
 
                 if (history != null && history.Length > 0)
