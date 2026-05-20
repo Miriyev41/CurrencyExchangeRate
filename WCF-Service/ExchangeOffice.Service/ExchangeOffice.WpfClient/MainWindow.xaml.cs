@@ -128,5 +128,10 @@ namespace ExchangeOffice.WpfClient
         {
 
         }
+
+        private void lstHistory_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
