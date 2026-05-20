@@ -83,11 +83,11 @@ namespace ExchangeOffice.Service
                         db.Wallets.Add(targetWallet);
                     }
 
-                    // 2. THE REAL MATH: Convert to PLN first, then divide by the target rate
+                    // 2. Convert to PLN first, then divide by the target rate
                     decimal amountInPLN = amount * fromRate;
                     decimal convertedAmount = amountInPLN / toRate;
 
-                    // Calculate the actual exchange rate used for the ledger
+                    // Calculate the actual exchange rate
                     decimal finalExchangeRate = fromRate / toRate;
 
                     sourceWallet.Balance -= amount;
@@ -176,9 +176,7 @@ namespace ExchangeOffice.Service
             {
                 try
                 {
-                    // SECURITY NOTE: In a real enterprise system, passwords are NEVER stored as plain text. 
-                    // They are hashed (e.g., using BCrypt or SHA256). 
-                    // For this architecture lab, we are checking the raw string.
+ 
 
                     var user = db.Users.FirstOrDefault(u => u.Username == username && u.Password == password);
 
@@ -220,7 +218,6 @@ namespace ExchangeOffice.Service
                 db.Users.Add(newUser);
                 db.SaveChanges(); // Save to get the new ID
 
-                // Bonus: Give them empty wallets to start with so the dashboard doesn't crash!
                 db.Wallets.Add(new Wallet { UserId = newUser.Id, CurrencyCode = "PLN", Balance = 0 });
                 db.Wallets.Add(new Wallet { UserId = newUser.Id, CurrencyCode = "USD", Balance = 0 });
                 db.SaveChanges();
