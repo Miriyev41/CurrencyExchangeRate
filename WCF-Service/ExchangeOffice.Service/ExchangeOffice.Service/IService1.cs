@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ServiceModel;
 
 [ServiceContract]
@@ -34,4 +35,7 @@ public interface IService1
 
     [OperationContract]
     string TopUpWallet(int userId, string currencyCode, decimal amount);
+
+    [OperationContract]
+    string GetHistoricalRate(string currencyCode, DateTime date);
 }

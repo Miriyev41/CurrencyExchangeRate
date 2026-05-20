@@ -74,6 +74,12 @@ namespace ExchangeOffice.WpfClient.ExchangeService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/TopUpWallet", ReplyAction="http://tempuri.org/IService1/TopUpWalletResponse")]
         System.Threading.Tasks.Task<string> TopUpWalletAsync(int userId, string currencyCode, decimal amount);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetHistoricalRate", ReplyAction="http://tempuri.org/IService1/GetHistoricalRateResponse")]
+        string GetHistoricalRate(string currencyCode, System.DateTime date);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetHistoricalRate", ReplyAction="http://tempuri.org/IService1/GetHistoricalRateResponse")]
+        System.Threading.Tasks.Task<string> GetHistoricalRateAsync(string currencyCode, System.DateTime date);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -181,6 +187,14 @@ namespace ExchangeOffice.WpfClient.ExchangeService {
         
         public System.Threading.Tasks.Task<string> TopUpWalletAsync(int userId, string currencyCode, decimal amount) {
             return base.Channel.TopUpWalletAsync(userId, currencyCode, amount);
+        }
+        
+        public string GetHistoricalRate(string currencyCode, System.DateTime date) {
+            return base.Channel.GetHistoricalRate(currencyCode, date);
+        }
+        
+        public System.Threading.Tasks.Task<string> GetHistoricalRateAsync(string currencyCode, System.DateTime date) {
+            return base.Channel.GetHistoricalRateAsync(currencyCode, date);
         }
     }
 }

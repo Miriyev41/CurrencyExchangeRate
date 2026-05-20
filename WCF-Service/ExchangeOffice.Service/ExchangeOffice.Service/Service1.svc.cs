@@ -26,7 +26,7 @@ namespace ExchangeOffice.Service
                     string url = $"http://api.nbp.pl/api/exchangerates/rates/a/{currencyCode}/?format=json";
                     string jsonResponse = client.GetStringAsync(url).Result;
                     NbpResponse nbpData = JsonConvert.DeserializeObject<NbpResponse>(jsonResponse);
-                    return nbpData.rates[0].mid;
+                    return nbpData.Rates[0].Mid;
                 }
                 catch (Exception)
                 {
@@ -63,19 +63,32 @@ namespace ExchangeOffice.Service
             {
                 try
                 {
-                    string currencyToFetch = (fromCurrency == "PLN") ? toCurrency : fromCurrency;
-                    decimal rate = GetExchangeRate(currencyToFetch);
+                    // 1. Get the rate for BOTH currencies (If it's PLN, the rate is exactly 1.0)
+                    decimal fromRate = (fromCurrency == "PLN") ? 1.0m : GetExchangeRate(fromCurrency);
+                    decimal toRate = (toCurrency == "PLN") ? 1.0m : GetExchangeRate(toCurrency);
 
-                    if (rate <= 0) return $"Error: Could not find rate for {currencyToFetch}.";
+                    if (fromRate <= 0) return $"Error: Could not find rate for {fromCurrency}.";
+                    if (toRate <= 0) return $"Error: Could not find rate for {toCurrency}.";
 
                     var sourceWallet = db.Wallets.FirstOrDefault(w => w.UserId == userId && w.CurrencyCode == fromCurrency);
                     var targetWallet = db.Wallets.FirstOrDefault(w => w.UserId == userId && w.CurrencyCode == toCurrency);
 
                     if (sourceWallet == null) return $"Error: Wallet for {fromCurrency} does not exist.";
                     if (sourceWallet.Balance < amount) return $"Error: Insufficient funds in {fromCurrency}.";
-                    if (targetWallet == null) return $"Error: Target wallet for {toCurrency} does not exist.";
 
-                    decimal convertedAmount = (fromCurrency == "PLN") ? amount / rate : amount * rate;
+                    // Note: If target wallet doesn't exist, we should probably create it!
+                    if (targetWallet == null)
+                    {
+                        targetWallet = new Wallet { UserId = userId, CurrencyCode = toCurrency, Balance = 0 };
+                        db.Wallets.Add(targetWallet);
+                    }
+
+                    // 2. THE REAL MATH: Convert to PLN first, then divide by the target rate
+                    decimal amountInPLN = amount * fromRate;
+                    decimal convertedAmount = amountInPLN / toRate;
+
+                    // Calculate the actual exchange rate used for the ledger
+                    decimal finalExchangeRate = fromRate / toRate;
 
                     sourceWallet.Balance -= amount;
                     targetWallet.Balance += convertedAmount;
@@ -86,13 +99,13 @@ namespace ExchangeOffice.Service
                         BoughtCurrency = toCurrency,
                         SoldCurrency = fromCurrency,
                         Amount = amount,
-                        ExchangeRate = rate,
+                        ExchangeRate = finalExchangeRate,
                         TransactionDate = DateTime.Now
                     });
 
                     db.SaveChanges();
 
-                    return $"Success! Swapped {amount} {fromCurrency} for {Math.Round(convertedAmount, 2)} {toCurrency} (Rate: {rate}).";
+                    return $"Success! Swapped {amount} {fromCurrency} for {Math.Round(convertedAmount, 2)} {toCurrency} (Rate: {Math.Round(finalExchangeRate, 4)}).";
                 }
                 catch (Exception ex)
                 {
@@ -243,8 +256,32 @@ namespace ExchangeOffice.Service
                 return "Success";
             }
         }
+        public string GetHistoricalRate(string currencyCode, DateTime date)
+        {
+            if (currencyCode.ToUpper() == "PLN") return "1 PLN is always 1 PLN.";
+
+            // The NBP API requires the date formatted exactly like YYYY-MM-DD
+            string dateString = date.ToString("yyyy-MM-dd");
+            string url = $"http://api.nbp.pl/api/exchangerates/rates/a/{currencyCode}/{dateString}/?format=json";
+
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    string jsonResult = client.GetStringAsync(url).Result;
+                    var nbpData = JsonConvert.DeserializeObject<NbpResponse>(jsonResult);
+
+                    return $"Archive Data: 1 {currencyCode.ToUpper()} = {nbpData.Rates[0].Mid} PLN on {dateString}";
+                }
+            }
+            catch
+            {
+                // NOTE: The Polish Bank does NOT publish rates on Weekends or Holidays!
+                // If you ask for a Saturday, the API throws an error. We handle that cleanly here.
+                return $"No data for {dateString}. (Markets are closed on weekends/holidays).";
+            }
+        }
     }
 
-    public class NbpResponse { public List<NbpRate> rates { get; set; } }
-    public class NbpRate { public decimal mid { get; set; } }
+    
 }

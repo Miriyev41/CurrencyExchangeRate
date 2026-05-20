@@ -67,6 +67,12 @@
   <wsdl:message name="IService1_TopUpWallet_OutputMessage">
     <wsdl:part name="parameters" element="tns:TopUpWalletResponse" />
   </wsdl:message>
+  <wsdl:message name="IService1_GetHistoricalRate_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetHistoricalRate" />
+  </wsdl:message>
+  <wsdl:message name="IService1_GetHistoricalRate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetHistoricalRateResponse" />
+  </wsdl:message>
   <wsdl:portType name="IService1">
     <wsdl:operation name="TestConnection">
       <wsdl:input wsaw:Action="http://tempuri.org/IService1/TestConnection" message="tns:IService1_TestConnection_InputMessage" />
@@ -107,6 +113,10 @@
     <wsdl:operation name="TopUpWallet">
       <wsdl:input wsaw:Action="http://tempuri.org/IService1/TopUpWallet" message="tns:IService1_TopUpWallet_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IService1/TopUpWalletResponse" message="tns:IService1_TopUpWallet_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetHistoricalRate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/GetHistoricalRate" message="tns:IService1_GetHistoricalRate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/GetHistoricalRateResponse" message="tns:IService1_GetHistoricalRate_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IService1" type="tns:IService1">
@@ -194,6 +204,15 @@
     </wsdl:operation>
     <wsdl:operation name="TopUpWallet">
       <soap:operation soapAction="http://tempuri.org/IService1/TopUpWallet" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetHistoricalRate">
+      <soap:operation soapAction="http://tempuri.org/IService1/GetHistoricalRate" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

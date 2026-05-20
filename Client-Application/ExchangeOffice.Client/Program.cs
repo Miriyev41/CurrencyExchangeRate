@@ -12,12 +12,9 @@ namespace ExchangeOffice.Client
 
             try
             {
-                Console.WriteLine("========================================");
-                Console.WriteLine("   UNIVERSITY EXCHANGE OFFICE CLIENT    ");
-                Console.WriteLine("========================================\n");
 
                 // 2. Initial Connection Tests
-                string greeting = client.TestConnection("Student");
+                string greeting = client.TestConnection("");
                 Console.WriteLine($"[Service Check]: {greeting}");
 
                 string dbResult = client.TestDatabaseConnection();
