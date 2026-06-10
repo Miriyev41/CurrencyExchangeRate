@@ -1,7 +1,7 @@
 # Currency Exchange Rate
 
 **Course name: **Network Application Development  
-**Project title: **Global Currency Exchange Terminal   
+**Project title: **Currency Exchange Rate  
 **Author name(s): **Mirparvin Miriyev
 **Student ID number(s): **64523 
 
