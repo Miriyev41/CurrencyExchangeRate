@@ -17,6 +17,9 @@ This project is a robust client-server desktop application designed to simulate 
 ### Instructions on How to Run the Project
 
 Follow these steps carefully to ensure both the backend service and frontend client launch successfully:
+Directory to open project.
+
+CurrencyExchangeRate-master >>> WCF-Service >>> ExchangeOffice.Service >>> ExchangeOffice.Service >>> ExchangeOffice.Service.sln
 
 ### 1. Database Initialization (Entity Framework)
 Before running the application for the first time, you must create the local database.
